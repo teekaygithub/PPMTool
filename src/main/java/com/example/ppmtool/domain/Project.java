@@ -52,6 +52,38 @@ public class Project {
         this.description = description;
     }
 
+    public Date getStartDate() {
+        return start_date;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.start_date = startDate
+    }
+
+    public Date getEndDate() {
+        return end_date;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.end_date = endDate;
+    }
+
+    public Date getCreatedAt() {
+        return created_At;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.created_At = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updated_At;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updated_At = updatedAt;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.created_At = new Date();
