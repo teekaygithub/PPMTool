@@ -1,12 +1,14 @@
 package com.example.ppmtool.web;
 
 import com.example.ppmtool.domain.Project;
+import com.example.ppmtool.exceptions.ProjectIdException;
 import com.example.ppmtool.services.ProjectService;
 import com.example.ppmtool.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,11 +40,19 @@ public class ProjectController {
 
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProjectById(@PathVariable String projectId) {
-        Project project = projectService.findProjectById(projectId);
+        Project project = projectService.findProjectById(projectId.toUpperCase());
 
         return new ResponseEntity<Project>(project, HttpStatus.OK);
     }
 
     @GetMapping("/all")
     public Iterable<Project> getAllProjects() {return projectService.findAllProjects();}
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<?> deleteProjectById(@PathVariable String projectId) {
+
+        projectService.removeProjectById(projectId);
+
+        return new ResponseEntity<String>("Project with ID '" + projectId.toUpperCase() + "' was removed successfully", HttpStatus.OK);
+    }
 }
