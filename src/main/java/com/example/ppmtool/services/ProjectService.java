@@ -1,6 +1,8 @@
 package com.example.ppmtool.services;
 
+import com.example.ppmtool.repositories.BacklogRepository;
 import com.example.ppmtool.repositories.ProjectRepository;
+import com.example.ppmtool.domain.Backlog;
 import com.example.ppmtool.domain.Project;
 import com.example.ppmtool.exceptions.ProjectIdException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,26 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private BacklogRepository backlogRepository;
+
     public Project saveOrUpdateProject(Project project) {
         try {
-            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            String PID = project.getProjectIdentifier().toUpperCase();
+            project.setProjectIdentifier(PID);
+            
+            if (project.getId() == null) {
+                // Brand new project, link project to newly created backlog
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(PID);
+            } else {
+                // Existing project, make sure project-to-backlog linkage is intact
+                Backlog bl = backlogRepository.findByProjectIdentifier(PID);
+                project.setBacklog(bl);
+            }
+
             return projectRepository.save(project);
         } catch (Exception e) {
             throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
