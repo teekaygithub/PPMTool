@@ -1,5 +1,8 @@
 package com.example.ppmtool.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,9 +23,19 @@ public class Backlog {
     private Project project;
 
     // One to many with project tasks
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<ProjectTask> projectTasks = new ArrayList<>();
 
     public Project getProject() {
         return project;
+    }
+
+    public Integer getPTSequence() {
+        return PTSequence;
+    }
+
+    public void setPTSequence(Integer pTSequence) {
+        this.PTSequence = pTSequence;
     }
 
     public void setProject(Project project) {
