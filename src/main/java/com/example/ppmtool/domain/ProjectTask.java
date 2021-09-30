@@ -2,7 +2,6 @@ package com.example.ppmtool.domain;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +22,7 @@ public class ProjectTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(updatable = false)
+    @Column(updatable = false, unique = true)
     private String projectSequence;
     @NotBlank(message = "Please include a project summary")
     private String summary;
@@ -147,6 +146,16 @@ public class ProjectTask {
     public String toString() {
         return "ProjectTask{" +
                 "id=" + id +
-                ", projectSequence='" + projectSequence + '\'';
+                ", projectSequence='" + projectSequence + '\'' +
+                ", summary='" + summary + '\'' +
+                ", acceptanceCriteria='" + acceptanceCriteria + '\'' +
+                ", status='" + status + '\'' +
+                ", priority=" + priority +
+                ", dueDate=" + dueDate +
+                ", backlog=" + backlog +
+                ", projectIdentifier='" + projectIdentifier + '\'' +
+                ", created_At=" + created_At +
+                ", updated_At=" + updated_At +
+                '}';
     }
 }

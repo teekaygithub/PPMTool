@@ -1,7 +1,6 @@
 package com.example.ppmtool.web;
 
 import com.example.ppmtool.domain.Project;
-import com.example.ppmtool.exceptions.ProjectIdException;
 import com.example.ppmtool.services.ProjectService;
 import com.example.ppmtool.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
