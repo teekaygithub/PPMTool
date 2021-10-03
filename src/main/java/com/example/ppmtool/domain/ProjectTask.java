@@ -154,8 +154,8 @@ public class ProjectTask {
                 ", dueDate=" + dueDate +
                 ", backlog=" + backlog +
                 ", projectIdentifier='" + projectIdentifier + '\'' +
-                ", created_At=" + created_At +
-                ", updated_At=" + updated_At +
+                ", create_At=" + created_At +
+                ", update_At=" + updated_At +
                 '}';
     }
 }
