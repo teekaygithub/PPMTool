@@ -147,6 +147,16 @@ public class ProjectTask {
     public String toString() {
         return "ProjectTask{" +
                 "id=" + id +
-                ", projectSequence='" + projectSequence + '\'';
+                ", projectSequence='" + projectSequence + '\'' +
+                ", summary='" + summary + '\'' +
+                ", acceptanceCriteria='" + acceptanceCriteria + '\'' +
+                ", status='" + status + '\'' +
+                ", priority=" + priority +
+                ", dueDate=" + dueDate +
+                ", backlog=" + backlog +
+                ", projectIdentifier='" + projectIdentifier + '\'' +
+                ", create_At=" + created_At +
+                ", update_At=" + updated_At +
+                '}';
     }
 }
