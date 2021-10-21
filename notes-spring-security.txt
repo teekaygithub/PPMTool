@@ -1,0 +1,14 @@
+ - Secure routes
+    => override 'configure' method in websecurityconfigureradapter
+    => HttpSecurity
+ - Custom user details service
+    => Custom methods for getting/writing user data
+    => Activate custom user detail by overriding 'configure' in websecurityconfigureradapter
+ - Routes for users and roles
+    => controller, service, repository
+
+ JWT
+ - Authentication filter
+ - Authorization filter
+ - Token generator
+ - Token validator
