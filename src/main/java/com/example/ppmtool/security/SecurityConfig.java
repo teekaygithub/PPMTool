@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.ppmtool.security.SecurityConstants;
 import com.example.ppmtool.services.CustomUserDetailsService;
 
 @Configuration
@@ -47,22 +46,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable();
-        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers(
-            "/",
-            "/favicon.ico",
-            "/**/*.png",
-            "/**/*.gif",
-            "/**/*.svg",
-            "/**/*.jpg",
-            "/**/*.html",
-            "/**/*.css",
-            "/**/*.js"
-        ).permitAll()
-        .antMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
-        .antMatchers(SecurityConstants.H2_URL).permitAll()
-        .anyRequest().authenticated();
+        http.cors().and().csrf().disable()
+            // .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .headers().frameOptions().sameOrigin().and()
+            .authorizeRequests().antMatchers(
+                "/",
+                "/favicon.ico",
+                "/**/*.png",
+                "/**/*.gif",
+                "/**/*.svg",
+                "/**/*.jpg",
+                "/**/*.html",
+                "/**/*.css",
+                "/**/*.js"
+            ).permitAll()
+            .antMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
+            .antMatchers(SecurityConstants.H2_URL).permitAll()
+            .anyRequest().authenticated();
     }
 }
