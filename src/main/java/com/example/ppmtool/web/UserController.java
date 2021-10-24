@@ -11,8 +11,6 @@ import com.example.ppmtool.services.MapValidationErrorService;
 import com.example.ppmtool.services.UserService;
 import com.example.ppmtool.validator.UserValidator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,20 +43,14 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap!=null) return errorMap;
 
-        logger.info("Login request username: {}", loginRequest.getUsername());
         UsernamePasswordAuthenticationToken upaToken = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword().toString());
-        // UsernamePasswordAuthenticationToken upaToken = new UsernamePasswordAuthenticationToken("aang@test.com", "yip yip");
-        logger.info("UPA token generated");
         Authentication authentication = authenticationManager.authenticate(upaToken);
 
-        logger.info("Accessing security context...");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
 
