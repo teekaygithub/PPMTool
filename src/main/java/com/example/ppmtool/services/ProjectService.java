@@ -2,8 +2,10 @@ package com.example.ppmtool.services;
 
 import com.example.ppmtool.repositories.BacklogRepository;
 import com.example.ppmtool.repositories.ProjectRepository;
+import com.example.ppmtool.repositories.UserRepository;
 import com.example.ppmtool.domain.Backlog;
 import com.example.ppmtool.domain.Project;
+import com.example.ppmtool.domain.User;
 import com.example.ppmtool.exceptions.ProjectIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,14 @@ public class ProjectService {
     @Autowired
     private BacklogRepository backlogRepository;
 
-    public Project saveOrUpdateProject(Project project) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public Project saveOrUpdateProject(Project project, String username) {
         try {
+            User user = userRepository.findByUsername(username);
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             String PID = project.getProjectIdentifier().toUpperCase();
             project.setProjectIdentifier(PID);
             
@@ -41,6 +49,9 @@ public class ProjectService {
     }
 
     public Project findProjectById(String projectId) {
+
+        // Only want to return the project if the user looking for it is the owner
+        
         Project project = projectRepository.findByProjectIdentifier(projectId);
 
         if (project == null) {
