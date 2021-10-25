@@ -7,6 +7,8 @@ import com.example.ppmtool.domain.Backlog;
 import com.example.ppmtool.domain.Project;
 import com.example.ppmtool.domain.User;
 import com.example.ppmtool.exceptions.ProjectIdException;
+import com.example.ppmtool.exceptions.ProjectNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,7 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectById(String projectId) {
+    public Project findProjectById(String projectId, String username) {
 
         // Only want to return the project if the user looking for it is the owner
         
@@ -58,19 +60,18 @@ public class ProjectService {
             throw new ProjectIdException("Project with ID '" + projectId + "' not found");
         }
 
+        if (!project.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
+
         return project;
     }
 
-    public Iterable<Project> findAllProjects() {
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username) {
+        return projectRepository.findAllByProjectLeader(username);
     }
 
-    public void removeProjectById(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId);
-
-        if (project == null) {
-            throw new ProjectIdException("Cannot delete, project with ID '" + projectId.toUpperCase() + "' was not found");
-        }
-        projectRepository.delete(project);
+    public void removeProjectById(String projectId, String username) {
+        projectRepository.delete(findProjectById(projectId, username));
     }
 }
