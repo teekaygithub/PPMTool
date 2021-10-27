@@ -25,6 +25,7 @@ public class ProjectService {
     private UserRepository userRepository;
 
     public Project saveOrUpdateProject(Project project, String username) {
+        // If updating existing project, make sure the project belongs to the authenticated user
         if (project.getId()!=null) {
             Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
             if (existingProject!=null && (!existingProject.getProjectLeader().equals(username))) {
